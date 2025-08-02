@@ -25,7 +25,9 @@ CREATE TABLE users (
     last_name  TEXT    NOT NULL,
     username   TEXT    NOT NULL
                        UNIQUE,
-    password           NOT NULL
+    password           NOT NULL,
+    is_admin   INTEGER NOT NULL
+                       CHECK (is_admin IN (0, 1) ) 
 );
 """) # Setting up the Users table
 
@@ -84,7 +86,7 @@ print("DONE\n")
 
 # Adding default values to the DB
 # User
-print("Create a User:")
+print("Create the Admin User:")
 first_name: str = input("First Name: ")
 last_name: str = input("Last Name: ")
 username: str = input("Username: ")
