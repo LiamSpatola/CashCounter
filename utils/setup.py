@@ -14,7 +14,7 @@ print("\n" * 3)
 
 # Setting up the DB
 print("Creating the database...", end=" ")
-db = Database("meow.db")
+db = Database()
 
 db.query("""
 CREATE TABLE Users (
@@ -85,16 +85,16 @@ print("DONE\n")
 # Adding default values to the DB
 # User
 print("Create a User:")
-first_name = input("First Name: ")
-last_name = input("Last Name: ")
-username = input("Username: ")
-password = input("Password: ")
+first_name: str = input("First Name: ")
+last_name: str = input("Last Name: ")
+username: str = input("Username: ")
+password: str = input("Password: ")
 
 # TODO: Add the logic here
 
 # Currency
 print("\nSet Up the Default Currency:")
-symbol = input("Symbol: ")
+symbol: str = input("Symbol: ")
 
 # TODO: Add the logic here
 
@@ -102,5 +102,5 @@ symbol = input("Symbol: ")
 print("\nSet Up the Denominations:")
 for i in range(int("How Many Denomination Do You Want to Set Up? ")):
     print()
-    value = input("Value: ")
+    value: float = float(input("Value: "))
     # TODO: Add the logic here (use the default currency for the denomination currency)
