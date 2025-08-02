@@ -105,6 +105,25 @@ class User(Database):
         return None
     
     @classmethod
+    def load_by_user_id(cls, user_id: int) -> "User" | None:
+        db = Database()
+        sql: str = "SELECT * FROM users WHERE user_id = ?"
+        params: tuple = (user_id,)
+        result = db.query(sql, params)
+
+        if result:
+            # Using the results to build a user object
+            row = result[0]
+            return cls(
+                row["first_name"],
+                row["last_name"],
+                row["username"],
+                bool(row["is_admin"]),
+                user_id=row["user_id"]
+            )
+        return None
+    
+    @classmethod
     def get_all_users(cls) -> list["User" | None]:
         db = Database()
         sql: str = "SELECT * FROM users"

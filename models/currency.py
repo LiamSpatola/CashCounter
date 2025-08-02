@@ -41,7 +41,7 @@ class Currency(Database):
 
     # Utility Methods
     @classmethod
-    def load_by_currency_id(cls, currency_id) -> "Currency" | None:
+    def load_by_currency_id(cls, currency_id: int) -> "Currency" | None:
         db = Database()
         sql: str = "SELECT * FROM currencies WHERE currency_id = ?"
         params: tuple = (currency_id,)
