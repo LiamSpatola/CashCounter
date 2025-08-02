@@ -13,6 +13,7 @@ class Count(Database):
         date: datetime = datetime.now(),
         count_id: int | None = None,
     ):
+        super().__init__()
         self.user: User = user
         self.currency: Currency = currency
         self.date: datetime = date

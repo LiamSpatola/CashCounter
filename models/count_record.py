@@ -11,6 +11,7 @@ class CountRecord(Database):
         quantity: float,
         count_record_id: int | None = None,
     ) -> None:
+        super().__init__()
         self.denomination: Denomination = denomination
         self.quantity: int = quantity
         self.count_record_id: int | None = count_record_id

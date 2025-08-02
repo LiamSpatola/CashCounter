@@ -1,20 +1,28 @@
+import os
 from models.database import Database
+from models.user import User
+from models.currency import Currency
+from models.denomination import Denomination
+from utils import config
 
 
 print("   _____          _      _____                  _               _____      _               ")
 print("  / ____|        | |    / ____|                | |             / ____|    | |              ")
 print(" | |     __ _ ___| |__ | |     ___  _   _ _ __ | |_ ___ _ __  | (___   ___| |_ _   _ _ __  ")
-print(" | |    / _\` / __| '_ \| |    / _ \| | | | '_ \| __/ _ \ '__|  \___ \ / _ \ __| | | | '_ \ ")
-print(" | |___| (_| \__ \ | | | |___| (_) | |_| | | | | ||  __/ |     ____) |  __/ |_| |_| | |_) |")
-print("  \_____\__,_|___/_| |_|\_____\___/ \__,_|_| |_|\__\___|_|    |_____/ \___|\__|\__,_| .__/ ")
+print(" | |    / _\\` / __| '_ \\| |    / _ \\| | | | '_ \\| __/ _ \\ '__|  \\___ \\ / _ \\ __| | | | '_ \\ ")
+print(" | |___| (_| \\__ \\ | | | |___| (_) | |_| | | | | ||  __/ |     ____) |  __/ |_| |_| | |_) |")
+print("  \\_____\\__,_|___/_| |_|\\_____\\___/ \\__,_|_| |_|\\__\\___|_|    |_____/ \\___|\\__|\\__,_| .__/ ")
 print("                                                                                    | |    ")
 print("                                                                                    |_|    ")
 print("\n" * 3)
 
+# Deleting the DB if it already exists
+if os.path.exists(config.DB_NAME):
+    os.remove(config.DB_NAME)
 
 # Setting up the DB
 print("Creating the database...", end=" ")
-db = Database()
+db = Database(config.DB_NAME)
 
 db.query(
     """
@@ -71,7 +79,7 @@ CREATE TABLE denominations (
     denomination_id INTEGER PRIMARY KEY AUTOINCREMENT
                             NOT NULL
                             UNIQUE,
-    currency_id             REFERENCES currencies (currency_id) ON DELETE CASCADE
+    currency                REFERENCES currencies (currency_id) ON DELETE CASCADE
                                                                 ON UPDATE CASCADE
                             NOT NULL,
     value           REAL    UNIQUE
@@ -86,7 +94,7 @@ CREATE TABLE count_records (
     count_record_id INTEGER PRIMARY KEY AUTOINCREMENT
                             UNIQUE
                             NOT NULL,
-    denomination_id         REFERENCES denominations (denomination_id) ON DELETE CASCADE
+    denomination            REFERENCES denominations (denomination_id) ON DELETE CASCADE
                                                                        ON UPDATE CASCADE
                             NOT NULL,
     quantity        INTEGER NOT NULL
@@ -104,17 +112,24 @@ last_name: str = input("Last Name: ")
 username: str = input("Username: ")
 password: str = input("Password: ")
 
-# TODO: Add the logic here
+user: User = User(first_name, last_name, username, True)
+user.save(password)
 
 # Currency
 print("\nSet Up the Default Currency:")
 symbol: str = input("Symbol: ")
+name: str = input("Name: ")
 
-# TODO: Add the logic here
+currency: Currency = Currency(symbol, name)
+currency.save()
 
 # Denominations
 print("\nSet Up the Denominations:")
-for i in range(int("How Many Denomination Do You Want to Set Up? ")):
-    print()
+for i in range(int(input(("How Many Denominations Do You Want to Set Up? ")))):
+    print(f"\nDenomination #{i + 1}")
     value: float = float(input("Value: "))
-    # TODO: Add the logic here (use the default currency for the denomination currency)
+    
+    denomination: Denomination = Denomination(currency, value)
+    denomination.save()
+
+print("\nCashCounter set up successfully!")

@@ -3,7 +3,7 @@ from models.database import Database
 
 
 class Currency(Database):
-    def __init__(self, symbol: str, name: str, currency_id: int | None) -> None:
+    def __init__(self, symbol: str, name: str, currency_id: int | None = None) -> None:
         super().__init__()
         self.symbol: str = symbol
         self.name: str = name

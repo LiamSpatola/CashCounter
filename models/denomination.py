@@ -7,6 +7,7 @@ class Denomination(Database):
     def __init__(
         self, currency: Currency, value: float, denomination_id: int | None = None
     ) -> None:
+        super().__init__()
         self.currency: Currency = currency
         self.value: float = value
         self.denomination_id: int | None = denomination_id
