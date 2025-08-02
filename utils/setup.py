@@ -66,7 +66,7 @@ CREATE TABLE counts (
                      NOT NULL,
     date     TEXT    AS (DATETIME('now') ) 
                      NOT NULL,
-    currency TEXT    NOT NULL
+    currency INTEGER NOT NULL
                      REFERENCES currencies (currency_id) ON DELETE CASCADE
                                                          ON UPDATE CASCADE
 );
@@ -82,8 +82,7 @@ CREATE TABLE denominations (
     currency                REFERENCES currencies (currency_id) ON DELETE CASCADE
                                                                 ON UPDATE CASCADE
                             NOT NULL,
-    value           REAL    UNIQUE
-                            NOT NULL
+    value           REAL    NOT NULL
 );
 """
 )  # Setting up the Denominations table
