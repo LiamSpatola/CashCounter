@@ -102,8 +102,19 @@ class User(Database):
                 bool(row["is_admin"]),
                 user_id=row["user_id"]
             )
-        else:
-            return None
+        return None
+    
+    @classmethod
+    def get_all_users(cls) -> list["User" | None]:
+        db = Database()
+        sql: str = "SELECT * FROM users"
+        result = db.query(sql)
+
+        users = list()
+        for row in result:
+            users.append(cls(row["first_name"], row["last_name"], row["username"], bool(row["is_admin"]), user_id=row["user_id"]))
+
+        return users
 
     # Authentication Methods
     @staticmethod
