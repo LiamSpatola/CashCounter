@@ -16,7 +16,8 @@ print("\n" * 3)
 print("Creating the database...", end=" ")
 db = Database()
 
-db.query("""
+db.query(
+    """
 CREATE TABLE users (
     user_id    INTEGER PRIMARY KEY AUTOINCREMENT
                        UNIQUE
@@ -29,9 +30,11 @@ CREATE TABLE users (
     is_admin   INTEGER NOT NULL
                        CHECK (is_admin IN (0, 1) ) 
 );
-""") # Setting up the Users table
+"""
+)  # Setting up the Users table
 
-db.query("""
+db.query(
+    """
 CREATE TABLE currencies (
     currency_id INTEGER PRIMARY KEY AUTOINCREMENT
                         NOT NULL
@@ -39,9 +42,11 @@ CREATE TABLE currencies (
     symbol      TEXT    UNIQUE
                         NOT NULL
 );
-""") # Setting up the Currencies
+"""
+)  # Setting up the Currencies
 
-db.query("""
+db.query(
+    """
 CREATE TABLE counts (
     count_id INTEGER PRIMARY KEY AUTOINCREMENT
                      UNIQUE
@@ -55,9 +60,11 @@ CREATE TABLE counts (
                      REFERENCES currencies (currency_id) ON DELETE CASCADE
                                                          ON UPDATE CASCADE
 );
-""") # Setting up the Counts table
+"""
+)  # Setting up the Counts table
 
-db.query("""
+db.query(
+    """
 CREATE TABLE denominations (
     denomination_id INTEGER PRIMARY KEY AUTOINCREMENT
                             NOT NULL
@@ -68,9 +75,11 @@ CREATE TABLE denominations (
     value           REAL    UNIQUE
                             NOT NULL
 );
-""") # Setting up the Denominations table
+"""
+)  # Setting up the Denominations table
 
-db.query("""
+db.query(
+    """
 CREATE TABLE count_records (
     count_record_id INTEGER PRIMARY KEY AUTOINCREMENT
                             UNIQUE
@@ -80,7 +89,8 @@ CREATE TABLE count_records (
                             NOT NULL,
     quantity        INTEGER NOT NULL
 );
-""") # Setting up the Count_Records table
+"""
+)  # Setting up the Count_Records table
 
 print("DONE\n")
 
