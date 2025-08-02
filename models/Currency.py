@@ -11,7 +11,9 @@ class Currency(Database):
     # ORM Methods
     def exists(self) -> bool:
         if self.currency_id:
-            sql: str = "SELECT EXISTS(SELECT 1 FROM currencies WHERE currency_id = ?) AS currency_exists"
+            sql: str = (
+                "SELECT EXISTS(SELECT 1 FROM currencies WHERE currency_id = ?) AS currency_exists"
+            )
             params: tuple = (self.currency_id,)
             result = self.query(sql, params)
 
@@ -26,7 +28,7 @@ class Currency(Database):
             new_currency_id = self._insert()
             self.currency_id = new_currency_id
             return new_currency_id
-        
+
     def _update(self) -> None:
         sql: str = "UPDATE currencies SET symbol = ?, name = ? WHERE currency_id = ?"
         params: tuple = (self.symbol, self.name, self.currency_id)
@@ -59,6 +61,8 @@ class Currency(Database):
 
         currencies = list()
         for row in result:
-            currencies.append(cls(row["symbol"], row["name"], currency_id=row["currency_id"]))
+            currencies.append(
+                cls(row["symbol"], row["name"], currency_id=row["currency_id"])
+            )
 
         return currencies
