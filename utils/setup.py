@@ -40,6 +40,8 @@ CREATE TABLE currencies (
                         NOT NULL
                         UNIQUE,
     symbol      TEXT    UNIQUE
+                        NOT NULL,
+    name        TEXT    UNIQUE
                         NOT NULL
 );
 """
