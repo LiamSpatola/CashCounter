@@ -17,7 +17,7 @@ print("Creating the database...", end=" ")
 db = Database()
 
 db.query("""
-CREATE TABLE Users (
+CREATE TABLE users (
     user_id    INTEGER PRIMARY KEY AUTOINCREMENT
                        UNIQUE
                        NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE Users (
 """) # Setting up the Users table
 
 db.query("""
-CREATE TABLE Currencies (
+CREATE TABLE currencies (
     currency_id INTEGER PRIMARY KEY AUTOINCREMENT
                         NOT NULL
                         UNIQUE,
@@ -40,27 +40,27 @@ CREATE TABLE Currencies (
 """) # Setting up the Currencies
 
 db.query("""
-CREATE TABLE Counts (
+CREATE TABLE counts (
     count_id INTEGER PRIMARY KEY AUTOINCREMENT
                      UNIQUE
                      NOT NULL,
-    user     INTEGER REFERENCES Users (user_id) ON DELETE CASCADE
+    user     INTEGER REFERENCES users (user_id) ON DELETE CASCADE
                                                 ON UPDATE CASCADE
                      NOT NULL,
     date     TEXT    AS (DATETIME('now') ) 
                      NOT NULL,
     currency TEXT    NOT NULL
-                     REFERENCES Currencies (currency_id) ON DELETE CASCADE
+                     REFERENCES currencies (currency_id) ON DELETE CASCADE
                                                          ON UPDATE CASCADE
 );
 """) # Setting up the Counts table
 
 db.query("""
-CREATE TABLE Denominations (
+CREATE TABLE denominations (
     denomination_id INTEGER PRIMARY KEY AUTOINCREMENT
                             NOT NULL
                             UNIQUE,
-    currency_id             REFERENCES Currencies (currency_id) ON DELETE CASCADE
+    currency_id             REFERENCES currencies (currency_id) ON DELETE CASCADE
                                                                 ON UPDATE CASCADE
                             NOT NULL,
     value           REAL    UNIQUE
@@ -69,11 +69,11 @@ CREATE TABLE Denominations (
 """) # Setting up the Denominations table
 
 db.query("""
-CREATE TABLE Count_Records (
+CREATE TABLE count_records (
     count_record_id INTEGER PRIMARY KEY AUTOINCREMENT
                             UNIQUE
                             NOT NULL,
-    denomination_id         REFERENCES Denominations (denomination_id) ON DELETE CASCADE
+    denomination_id         REFERENCES denominations (denomination_id) ON DELETE CASCADE
                                                                        ON UPDATE CASCADE
                             NOT NULL,
     quantity        INTEGER NOT NULL
