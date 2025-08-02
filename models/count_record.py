@@ -8,11 +8,13 @@ class CountRecord(Database):
     def __init__(
         self,
         denomination: Denomination,
+        count: Count,
         quantity: float,
         count_record_id: int | None = None,
     ) -> None:
         super().__init__()
         self.denomination: Denomination = denomination
+        self.count: Count = count
         self.quantity: int = quantity
         self.count_record_id: int | None = count_record_id
 
@@ -39,18 +41,19 @@ class CountRecord(Database):
 
     def _update(self) -> None:
         sql: str = (
-            "UPDATE count_records SET denomination = ?, quantity = ? WHERE count_record_id = ?"
+            "UPDATE count_records SET denomination = ?, count = ?, quantity = ? WHERE count_record_id = ?"
         )
         params: tuple = (
             self.denomination.denomination_id,
+            self.count.count_id,
             self.quantity,
             self.count_record_id,
         )
         self.query(sql, params)
 
     def _insert(self) -> int:
-        sql: str = "INSERT INTO count_records (denomination, quantity) VALUES (?, ?)"
-        params: tuple = (self.denomination.denomination_id, self.quantity)
+        sql: str = "INSERT INTO count_records (denomination, count, quantity) VALUES (?, ?, ?)"
+        params: tuple = (self.denomination.denomination_id, self.count.count_id, self.quantity)
         return self.query(sql, params)
 
     # Utility Methods
@@ -65,7 +68,8 @@ class CountRecord(Database):
             # Using the results to build a count record object
             row = result[0]
             return cls(
-                Denomination.load_by_denomination_id(result["denomination"]),
+                Denomination.load_by_denomination_id(row["denomination"]),
+                Count.load_by_count_id(row["count"]),
                 row["quantity"],
                 count_record_id=row["count_record_id"],
             )
@@ -81,7 +85,8 @@ class CountRecord(Database):
         for row in result:
             count_records.append(
                 cls(
-                    Denomination.load_by_denomination_id(result["denomination"]),
+                    Denomination.load_by_denomination_id(row["denomination"]),
+                    Count.load_by_count_id(row["count"]),
                     row["quantity"],
                     count_record_id=row["count_record_id"],
                 )
@@ -100,7 +105,8 @@ class CountRecord(Database):
         for row in result:
             count_records.append(
                 cls(
-                    Denomination.load_by_denomination_id(result["denomination"]),
+                    Denomination.load_by_denomination_id(row["denomination"]),
+                    count.count_id,
                     row["quantity"],
                     count_record_id=row["count_record_id"],
                 )

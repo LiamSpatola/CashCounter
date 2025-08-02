@@ -39,7 +39,7 @@ CREATE TABLE users (
                        CHECK (is_admin IN (0, 1) ) 
 );
 """
-)  # Setting up the Users table
+)  # Setting up the users table
 
 db.query(
     """
@@ -53,7 +53,7 @@ CREATE TABLE currencies (
                         NOT NULL
 );
 """
-)  # Setting up the Currencies
+)  # Setting up the currencies
 
 db.query(
     """
@@ -64,14 +64,14 @@ CREATE TABLE counts (
     user     INTEGER REFERENCES users (user_id) ON DELETE CASCADE
                                                 ON UPDATE CASCADE
                      NOT NULL,
-    date     TEXT    AS (DATETIME('now') ) 
-                     NOT NULL,
+    date     TEXT    NOT NULL
+                     DEFAULT (DATETIME('now')),
     currency INTEGER NOT NULL
                      REFERENCES currencies (currency_id) ON DELETE CASCADE
                                                          ON UPDATE CASCADE
 );
 """
-)  # Setting up the Counts table
+)  # Setting up the counts table
 
 db.query(
     """
@@ -85,7 +85,7 @@ CREATE TABLE denominations (
     value           REAL    NOT NULL
 );
 """
-)  # Setting up the Denominations table
+)  # Setting up the denominations table
 
 db.query(
     """
@@ -96,10 +96,13 @@ CREATE TABLE count_records (
     denomination            REFERENCES denominations (denomination_id) ON DELETE CASCADE
                                                                        ON UPDATE CASCADE
                             NOT NULL,
+    count                   REFERENCES counts (count_id) ON DELETE CASCADE
+                                                         ON UPDATE CASCADE
+                            NOT NULL,
     quantity        INTEGER NOT NULL
 );
 """
-)  # Setting up the Count_Records table
+)  # Setting up the count_records table
 
 print("DONE\n")
 
