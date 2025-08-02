@@ -9,20 +9,22 @@ class User(Database):
         last_name: str,
         username: str,
         is_admin: bool,
+        user_id: int | None = None
     ) -> None:
         super().__init__()
         self.first_name: str = first_name
         self.last_name: str = last_name
         self.username: str = username
         self.is_admin: bool = is_admin
+        self.user_id: int | None = user_id
 
     # ORM Methods
     def exists(self) -> bool:
-        if self.username:
+        if self.user_id:
             sql: str = (
-                "SELECT EXISTS(SELECT 1 FROM users WHERE username = ?) AS user_exists"
+                "SELECT EXISTS(SELECT 1 FROM users WHERE user_id = ?) AS user_exists"
             )
-            params: tuple = (self.username,)
+            params: tuple = (self.user_id,)
             result = self.query(sql, params)
 
             row = result[0]
@@ -35,13 +37,15 @@ class User(Database):
         else:
             if not new_password:
                 raise ValueError("New password is required to insert user.")
-            return self._insert(new_password)
+            new_user_id = self._insert(new_password)
+            self.user_id = new_user_id
+            return new_user_id
 
     def _update(self, new_password: str | None = None) -> None:
         if new_password:
             hashed_new_password: bytes = self.hash_password(new_password)
             sql: str = (
-                "UPDATE users SET first_name = ?, last_name = ?, username = ?, password = ?, is_admin = ? WHERE username = ?"
+                "UPDATE users SET first_name = ?, last_name = ?, username = ?, password = ?, is_admin = ? WHERE user_id = ?"
             )
             params: tuple = (
                 self.first_name,
@@ -49,18 +53,18 @@ class User(Database):
                 self.username,
                 hashed_new_password,
                 int(self.is_admin),
-                self.username,
+                self.user_id,
             )
         else:
             sql: str = (
-                "UPDATE users SET first_name = ?, last_name = ?, username = ?, is_admin = ? WHERE username = ?"
+                "UPDATE users SET first_name = ?, last_name = ?, username = ?, is_admin = ? WHERE user_id = ?"
             )
             params: tuple = (
                 self.first_name,
                 self.last_name,
                 self.username,
                 int(self.is_admin),
-                self.username,
+                self.user_id,
             )
 
         self.query(sql, params)
@@ -96,6 +100,7 @@ class User(Database):
                 row["last_name"],
                 row["username"],
                 bool(row["is_admin"]),
+                user_id=row["user_id"]
             )
         else:
             return None
