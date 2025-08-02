@@ -13,7 +13,7 @@ print("\n" * 3)
 
 
 # Setting up the DB
-print("Creating the database...\n")
+print("Creating the database...", end=" ")
 db = Database("meow.db")
 
 db.query("""
@@ -80,6 +80,7 @@ CREATE TABLE Count_Records (
 );
 """) # Setting up the Count_Records table
 
+print("DONE\n")
 
 # Adding default values to the DB
 # User
@@ -92,7 +93,7 @@ password = input("Password: ")
 # TODO: Add the logic here
 
 # Currency
-print("\nCreate the Default Currency:")
+print("\nSet Up the Default Currency:")
 symbol = input("Symbol: ")
 
 # TODO: Add the logic here
