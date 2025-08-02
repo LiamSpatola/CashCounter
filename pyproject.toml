@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "cashcounter"
+version = "0.1.0"
+description = "An application built using PyQT6 to count cash in cash drawers"
+authors = ["Liam Spatola <liam.spatola@gmail.com>"]
+license = "GNU GPL v3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
