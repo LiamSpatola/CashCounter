@@ -1,3 +1,4 @@
+from __future__ import annotations
 from models.database import Database
 
 
@@ -41,7 +42,7 @@ class Currency(Database):
 
     # Utility Methods
     @classmethod
-    def load_by_currency_id(cls, currency_id: int) -> "Currency" | None:
+    def load_by_currency_id(cls, currency_id: int) -> Currency | None:
         db = Database()
         sql: str = "SELECT * FROM currencies WHERE currency_id = ?"
         params: tuple = (currency_id,)
@@ -54,7 +55,7 @@ class Currency(Database):
         return None
 
     @classmethod
-    def get_all_currencies(cls) -> list["Currency" | None]:
+    def get_all_currencies(cls) -> list[Currency | None]:
         db = Database()
         sql: str = "SELECT * FROM currencies"
         result = db.query(sql)

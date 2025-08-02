@@ -1,3 +1,4 @@
+from __future__ import annotations
 from datetime import datetime
 from models.database import Database
 from models.user import User
@@ -61,7 +62,7 @@ class Count(Database):
 
     # Utility Methods
     @classmethod
-    def load_by_count_id(cls, count_id: int) -> "Count" | None:
+    def load_by_count_id(cls, count_id: int) -> Count | None:
         db = Database()
         sql: str = "SELECT * FROM counts WHERE count_id = ?"
         params: tuple = (count_id,)
@@ -79,7 +80,7 @@ class Count(Database):
         return None
 
     @classmethod
-    def get_all_counts(cls) -> list["Count" | None]:
+    def get_all_counts(cls) -> list[Count | None]:
         db = Database()
         sql: str = "SELECT * FROM counts"
         result = db.query(sql)

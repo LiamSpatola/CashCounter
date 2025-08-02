@@ -1,3 +1,4 @@
+from __future__ import annotations
 from bcrypt import gensalt, hashpw, checkpw
 from models.database import Database
 
@@ -36,7 +37,7 @@ class User(Database):
             self._update(new_password)
         else:
             if not new_password:
-                raise ValueError("New password is required to insert user.")
+                raise ValueError("A new password is required to insert user.")
             new_user_id = self._insert(new_password)
             self.user_id = new_user_id
             return new_user_id
@@ -86,7 +87,7 @@ class User(Database):
 
     # Utility Methods
     @classmethod
-    def load_by_username(cls, username: str) -> "User" | None:
+    def load_by_username(cls, username: str) -> User | None:
         db = Database()
         sql: str = "SELECT * FROM users WHERE username = ?"
         params: tuple = (username,)
@@ -105,7 +106,7 @@ class User(Database):
         return None
     
     @classmethod
-    def load_by_user_id(cls, user_id: int) -> "User" | None:
+    def load_by_user_id(cls, user_id: int) -> User | None:
         db = Database()
         sql: str = "SELECT * FROM users WHERE user_id = ?"
         params: tuple = (user_id,)
@@ -124,7 +125,7 @@ class User(Database):
         return None
     
     @classmethod
-    def get_all_users(cls) -> list["User" | None]:
+    def get_all_users(cls) -> list[User | None]:
         db = Database()
         sql: str = "SELECT * FROM users"
         result = db.query(sql)
@@ -149,7 +150,7 @@ class User(Database):
         return checkpw(password.encode(), hashed_password)
 
     @classmethod
-    def login(cls, username: str, password: str) -> "User" | None:
+    def login(cls, username: str, password: str) -> User | None:
         # Getting the hashed password from the DB
         db = Database()
         sql: str = "SELECT password FROM users WHERE username = ?"

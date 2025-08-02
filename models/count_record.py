@@ -1,3 +1,4 @@
+from __future__ import annotations
 from models.database import Database
 from models.denomination import Denomination
 from models.count import Count
@@ -53,7 +54,7 @@ class CountRecord(Database):
 
     # Utility Methods
     @classmethod
-    def load_by_count_record_id(cls, count_record_id: int) -> "CountRecord" | None:
+    def load_by_count_record_id(cls, count_record_id: int) -> CountRecord | None:
         db = Database()
         sql: str = "SELECT * FROM count_records WHERE count_record_id = ?"
         params: tuple = (count_record_id,)
@@ -70,7 +71,7 @@ class CountRecord(Database):
         return None
 
     @classmethod
-    def get_all_count_records(cls) -> list["CountRecord" | None]:
+    def get_all_count_records(cls) -> list[CountRecord | None]:
         db = Database()
         sql: str = "SELECT * FROM count_records"
         result = db.query(sql)
@@ -88,7 +89,7 @@ class CountRecord(Database):
         return count_records
 
     @classmethod
-    def get_count_records_by_count(cls, count: Count) -> list["CountRecord" | None]:
+    def get_count_records_by_count(cls, count: Count) -> list[CountRecord | None]:
         db = Database()
         sql: str = "SELECT * FROM count_records WHERE count = ?"
         params: tuple = (count.count_id,)

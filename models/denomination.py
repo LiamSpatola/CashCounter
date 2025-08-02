@@ -1,3 +1,4 @@
+from __future__ import annotations
 from models.database import Database
 from models.currency import Currency
 
@@ -45,7 +46,7 @@ class Denomination(Database):
 
     # Utility Methods
     @classmethod
-    def load_by_denomination_id(cls, denomination_id: int) -> "Denomination" | None:
+    def load_by_denomination_id(cls, denomination_id: int) -> Denomination | None:
         db = Database()
         sql: str = "SELECT * FROM denominations WHERE denomination_id = ?"
         params: tuple = (denomination_id,)
@@ -62,7 +63,7 @@ class Denomination(Database):
         return None
 
     @classmethod
-    def get_all_denominations(cls) -> list["Denomination" | None]:
+    def get_all_denominations(cls) -> list[Denomination | None]:
         db = Database()
         sql: str = "SELECT * FROM denominations"
         result = db.query(sql)
@@ -80,7 +81,7 @@ class Denomination(Database):
         return denominations
     
     @classmethod
-    def get_denomination_by_currency(cls, currency: Currency) -> list["Denomination" | None]:
+    def get_denomination_by_currency(cls, currency: Currency) -> list[Denomination | None]:
         db = Database()
         sql: str = "SELECT * FROM denominations WHERE currency = ?"
         params: tuple = (currency.currency_id,)
