@@ -35,7 +35,7 @@ class Count(Database):
         params: tuple = (self.user.user_id, self.date.isoformat(" "), self.currency.currency_id, self.count_id)
         self.query(sql, params)
     
-    def _insert(self) -> None:
+    def _insert(self) -> int:
         sql: str = "INSERT INTO counts (user, date, currency) VALUES (?, ?, ?)"
         params: tuple = (self.user.user_id, self.date.isoformat(" "), self.currency.currency_id)
         return self.query(sql, params)
