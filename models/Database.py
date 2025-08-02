@@ -2,17 +2,15 @@ import sqlite3
 
 
 class Database:
-    __db_name: str
-
     def __init__(self, db_name: str = "cashcounter.db") -> None:
-        self.__db_name = db_name
+        self.db_name = db_name
 
     
     def query(self, sql: str, params: tuple = tuple()) -> list[tuple] | int | None:
-        with sqlite3.connect(self.__db_name) as conn:
+        with sqlite3.connect(self.db_name) as conn:
             sql = sql.strip().lower() # Cleaning up the query
             conn.row_factory = sqlite3.Row # Ensuring the column names are returned in the result
-            cur = conn.cursor
+            cur = conn.cursor()
             cur.execute(sql, params)
 
             if sql.startswith("select"):

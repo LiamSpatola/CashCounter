@@ -1,4 +1,4 @@
-from models.Database import Database
+from models.database import Database
 
 
 print("   _____          _      _____                  _               _____      _               ")
