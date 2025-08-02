@@ -78,3 +78,22 @@ class Denomination(Database):
             )
 
         return denominations
+    
+    @classmethod
+    def get_denomination_by_currency(cls, currency: Currency) -> list["Denomination" | None]:
+        db = Database()
+        sql: str = "SELECT * FROM denominations WHERE currency = ?"
+        params: tuple = (currency.currency_id,)
+        result = db.query(sql, params)
+
+        denominations = list()
+        for row in result:
+            denominations.append(
+                cls(
+                    Currency.load_by_currency_id(result["currency"]),
+                    row["value"],
+                    denomination_id=row["denomination_id"],
+                )
+            )
+
+        return denominations

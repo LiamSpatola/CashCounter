@@ -98,5 +98,14 @@ class Count(Database):
         return counts
 
     def calculate_total_value(self) -> float:
-        # TODO: Implement this code
-        pass
+        from models.count_record import (
+            CountRecord,
+        )  # Importing here to avoid a circular import
+
+        total = float(0)
+        count_records = CountRecord.get_count_records_by_count(self)
+
+        for count_record in count_records:
+            total += count_record.calculate_total_value()
+
+        return total
