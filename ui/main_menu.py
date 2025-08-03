@@ -1,6 +1,5 @@
 import sys
 from PyQt6 import QtCore, QtGui, QtWidgets
-from models.user import User
 
 
 class MainMenu(QtWidgets.QMainWindow):

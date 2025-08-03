@@ -92,7 +92,7 @@ class Denomination(Database):
         for row in result:
             denominations.append(
                 cls(
-                    Currency.load_by_currency_id(result["currency"]),
+                    Currency.load_by_currency_id(row["currency"]),
                     row["value"],
                     denomination_id=row["denomination_id"],
                 )
